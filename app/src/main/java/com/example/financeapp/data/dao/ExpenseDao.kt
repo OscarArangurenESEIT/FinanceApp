@@ -1,9 +1,11 @@
 package com.example.financeapp.data.dao
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import com.example.financeapp.data.model.Expense
 import com.example.financeapp.data.model.ExpenseCategory
 import kotlinx.coroutines.flow.Flow
@@ -27,5 +29,8 @@ interface ExpenseDao {
     @Query(value = "SELECT SUM(amount) FROM expenses WHERE userId = :userId AND category = :category AND date BETWEEN :startDate AND :endDate")
     fun getTotalExpensesByCategoryAndDateRange(userId: Long, category: ExpenseCategory, startDate: Long, endDate: Long): Flow<Double>
 
-
+    @Update
+    suspend fun update(expense: Expense)
+    @Delete
+    suspend fun delete(expense: Expense)
 }
